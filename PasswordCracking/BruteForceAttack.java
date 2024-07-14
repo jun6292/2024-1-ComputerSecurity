@@ -1,3 +1,5 @@
+package PasswordCracking;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
@@ -10,7 +12,7 @@ public class BruteForceAttack {
     private static final String SPECIAL_CHARACTERS = "!@#$%^&*";
 
     // 랜덤 패스워드 생성
-    private static String generateRandomPassword(int length, int type, String charSet) {
+    private static String generateRandomPassword(int length, String charSet) {
         StringBuilder password = new StringBuilder();
         Random random = new Random();
 
@@ -64,16 +66,6 @@ public class BruteForceAttack {
         return null;
     }
 
-    // 안전하지 않은 해시 함수 - 문자열의 각 문자의 아스키 값을 더한 후 256으로 나눈 나머지 반환
-    public static int unsafeHash(String input) {
-        int hash = 0;
-        for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            hash += c; // 각 문자의 아스키 값 더하기
-        }
-        return hash % 256;
-    }
-
     public static void main(String[] args) throws NoSuchAlgorithmException {
         // 사용자로부터 패스워드 길이 입력 받기
         System.out.print("Enter password length: ");
@@ -99,7 +91,7 @@ public class BruteForceAttack {
                 break;
         }
 
-        String randomPassword = generateRandomPassword(length, type, charSet);
+        String randomPassword = generateRandomPassword(length, charSet);
         String targetHash = hashPassword(randomPassword);
 
         // 시간 측정

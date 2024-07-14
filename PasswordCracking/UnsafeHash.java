@@ -1,3 +1,5 @@
+package PasswordCracking;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
@@ -10,7 +12,7 @@ public class UnsafeHash {
     private static final String SPECIAL_CHARACTERS = "!@#$%^&*";
 
     // 랜덤 패스워드 생성
-    private static String generateRandomPassword(int length, int type, String charSet) {
+    private static String generateRandomPassword(int length, String charSet) {
         StringBuilder password = new StringBuilder();
         Random random = new Random();
 
@@ -22,19 +24,6 @@ public class UnsafeHash {
         // 랜덤 패스워드 확인
         System.out.println("생성된 랜덤 타겟 패스워드: " + password);
         return password.toString();
-    }
-
-    // 패스워드의 해시를 생성
-    private static String hashPassword(String password) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hash = digest.digest(password.getBytes());
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : hash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
-        }
-        return hexString.toString();
     }
 
     // 백트래킹: 패스워드를 생성하고, 생성된 패스워드의 해시와 목표 해시를 비교
@@ -99,7 +88,7 @@ public class UnsafeHash {
                 break;
         }
 
-        String randomPassword = generateRandomPassword(length, type, charSet);
+        String randomPassword = generateRandomPassword(length, charSet);
         int targetHash = unsafeHash(randomPassword);
 
         // 시간 측정
